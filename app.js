@@ -51,3 +51,27 @@ document.addEventListener("DOMContentLoaded", function () {
     viz.showExportPowerPointDialog();
   }
 });
+
+//  8. Add Filtering to dashboard
+
+document.addEventListener("DOMContentLoaded", function () {
+  function getRangeValues() {
+    const minValue = document.getElementById("minValue").value;
+    const maxValue = document.getElementById("maxValue").value;
+    const workbook = viz.getWorkbook();
+    const activeSheet = workbook.getActiveSheet();
+    const sheets = activeSheet.getWorksheets();
+    // Apply filtering
+    const sheetToFilter = sheets[1];
+    sheetToFilter
+      .applyRangeFilterAsync("SUM(Sales)", {
+        min: minValue,
+        max: maxValue,
+      })
+      .then(alert("Viz Filtered!"));
+  }
+
+  const applyFilterButton = document.getElementById("applyFilter");
+
+  applyFilterButton.addEventListener("click", getRangeValues);
+});
